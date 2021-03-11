@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
+    //public GameObject left;
+    //public GameObject right;
+    //public GameObject front;
+    //public GameObject back;
+    enum Direction {None, Front, Down, Right, Left}
+    Direction currentSel;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
