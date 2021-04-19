@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class RoomMovement : MonoBehaviour
 {
@@ -11,12 +13,13 @@ public class RoomMovement : MonoBehaviour
 
     private void Start()
     {
-
         EnterRoom(startRoom);
     }
 
     public void MoveEnter(int direction)
     {
+        if (direction == 0 && currentRoom.GetComponent<Room>().door != null) return;
+
         if (currentRoom.GetComponent<Room>().rooms[direction] != null)
         {
             EnterRoom(currentRoom.GetComponent<Room>().rooms[direction]);
@@ -25,6 +28,7 @@ public class RoomMovement : MonoBehaviour
 
     public void EnterRoom(GameObject room)
     {
+
         if (currentRoom != null)
             currentRoom.gameObject.SetActive(false);
 
@@ -37,7 +41,14 @@ public class RoomMovement : MonoBehaviour
         {
             botan[i].SetActive(roomScript.rooms[i] != null);
         }
+        UpdateRoom(currentRoom.GetComponent<Room>().door == null);
     }
+
+    public void UpdateRoom(bool yes)
+    {
+        botan[0].GetComponent<Button>().interactable = yes;
+    }
+
     enum Direction
     {
         Front,
