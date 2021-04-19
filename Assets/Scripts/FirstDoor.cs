@@ -14,6 +14,7 @@ public class FirstDoor : MonoBehaviour
 
     private void PressMe()
     {
+            Debug.Log(click);
         if(click < 3)
         {
             Debug.Log(click);
