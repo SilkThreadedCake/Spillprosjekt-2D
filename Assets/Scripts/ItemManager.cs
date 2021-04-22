@@ -2,75 +2,110 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using TMPro;
 
 public class ItemManager : MonoBehaviour
 {
-    List<string> items;
+    string[] items;
     public string held;
-    List<Button> buttons;
+    List<Toggle> buttons;
+    public ToggleGroup zen;
+    public int itemsPicked;
 
     private void Start()
     {
-        items = new List<string>();
-        buttons = new List<Button>();
+        itemsPicked = 0;
+        items = new string[6];
+        for (int i = 0; i < 6; i++)
+        {
+            items[i] = "";
+        }
+        buttons = new List<Toggle>();
         foreach (Transform t in transform.Find("Hotbar"))
         {
-            buttons.Add(t.GetComponent<Button>());
+            buttons.Add(t.GetComponent<Toggle>());
+            t.Find("Label").GetComponent<TMP_Text>().text = "";
         }
         UpdateList();
     }
 
     public void AddItem(string item)
     {
-        if (items.Count >= 6 || items.Contains(item)) return;
-
-        items.Add(item);
-        UpdateList();
+        for (int i = 0; i < 6; i++)
+        {
+            if (items[i] == "" || items[i] == null)
+            {
+                itemsPicked++;
+                items[i] = item;
+                UpdateList();
+                return;
+            }
+        }
     }
-    
+
     public void RemoveItem(string item)
     {
         if (items.Contains(item))
         {
-            items.Remove(item);
-            if (held == item)
+            for (int i = 0; i < 6; i++)
             {
-                held = "";
+                if (items[i] == item)
+                {
+                    items[i] = "";
+                    UpdateList();
+                    return;
+                }
             }
-            UpdateList();
         }
 
     }
 
-    private void HeldItem(string hold)
+    public void HeldItem()
     {
-        if (!items.Contains(hold)) return;
-
-        if (held == hold)
+        Toggle t = zen.GetFirstActiveToggle();
+        if (t == null)
         {
             held = "";
             return;
         }
-        held = hold;
+        held = t.gameObject.transform.Find("Label").GetComponent<TMP_Text>().text;
     }
 
     private void UpdateList()
     {
-        for (int i = 0; i < items.Count; i++)
+        zen.SetAllTogglesOff();
+        for (int i = 0; i < 6; i++)
         {
-            buttons[i].gameObject.transform.Find("Text").GetComponent<Text>().text = items[i];
-            int counter = i;
-            buttons[i].onClick.RemoveAllListeners();
-            buttons[i].onClick.AddListener(delegate
+            Debug.Log(items[i]);
+            if (items[i] != "")
             {
-                HeldItem(items[counter]);
-            });
+                buttons[i].GetComponent<Toggle>().interactable = true;
+                buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = items[i];
+            }
+            else
+            {
+                buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = "";
+                buttons[i].GetComponent<Toggle>().interactable = false;
+            }
         }
-        for (int i = items.Count; i < 6; i++)
+    }
+    public void EndGame()
+    {
+        gameObject.transform.Find("Ending").gameObject.SetActive(true);
+        if (itemsPicked >= 7)
         {
-            buttons[i].gameObject.transform.Find("Text").GetComponent<Text>().text = "";
-            int counter = i;
-            buttons[i].onClick.RemoveAllListeners();
+            gameObject.transform.Find("Ending/Result 1").gameObject.SetActive(true);
+        }
+        else if (itemsPicked >= 5)
+        {
+            gameObject.transform.Find("Ending/Result 2").gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.transform.Find("Ending/Result 3").gameObject.SetActive(true);
         }
     }
 }
+
+

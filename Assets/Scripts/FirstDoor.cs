@@ -1,29 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class FirstDoor : MonoBehaviour
+public class FirstDoor : MonoBehaviour//, IPointerClickHandler
 {
     public GameObject openMe;
     private int click = 0;
-
-    private void OnMouseDown()
+    RoomMovement move;
+    private void Start()
     {
-        PressMe();
+        move = GameObject.Find("RoomManager").gameObject.GetComponent<RoomMovement>();
     }
 
-    private void PressMe()
+    public void clickMe(Button buttonClicked)
     {
-            Debug.Log(click);
-        if(click < 3)
+        if (click < 3)
         {
-            Debug.Log(click);
             click++;
         }
-        if (click > 3)
+        if (click >= 3)
         {
-            Debug.Log(click);
+            move.UpdateRoom(true);
             Destroy(openMe);
+
         }
     }
 }
