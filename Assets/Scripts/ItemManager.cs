@@ -77,7 +77,6 @@ public class ItemManager : MonoBehaviour
         zen.SetAllTogglesOff();
         for (int i = 0; i < 6; i++)
         {
-            Debug.Log(items[i]);
             if (items[i] != "")
             {
                 buttons[i].GetComponent<Toggle>().interactable = true;
@@ -92,18 +91,21 @@ public class ItemManager : MonoBehaviour
     }
     public void EndGame()
     {
-        gameObject.transform.Find("Ending").gameObject.SetActive(true);
-        if (itemsPicked >= 7)
+        if (held == "key")
         {
-            gameObject.transform.Find("Ending/Result 1").gameObject.SetActive(true);
-        }
-        else if (itemsPicked >= 5)
-        {
-            gameObject.transform.Find("Ending/Result 2").gameObject.SetActive(true);
-        }
-        else
-        {
-            gameObject.transform.Find("Ending/Result 3").gameObject.SetActive(true);
+            gameObject.transform.Find("Ending").gameObject.SetActive(true);
+            if (itemsPicked >= 7)
+            {
+                gameObject.transform.Find("Ending/Result 1").gameObject.SetActive(true);
+            }
+            else if (itemsPicked >= 5)
+            {
+                gameObject.transform.Find("Ending/Result 2").gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.transform.Find("Ending/Result 3").gameObject.SetActive(true);
+            }
         }
     }
 }
