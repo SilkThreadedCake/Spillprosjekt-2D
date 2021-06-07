@@ -7,7 +7,7 @@ public class TextManager : MonoBehaviour
 {
     public static TMP_Text text;
     public static GameObject textbox;
-    public void Start()
+    public void Awake()
     {
         text = transform.Find("TextButton/Text").GetComponent<TMP_Text>();
         textbox = transform.Find("TextButton").gameObject;

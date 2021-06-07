@@ -5,7 +5,7 @@ using UnityEngine;
 public class KAMIKAZE : MonoBehaviour
 {
     public string discovery;
-    public void Awake()
+    public void Start()
     {
         TextManager.DisplayText(discovery);
         Destroy(this);
