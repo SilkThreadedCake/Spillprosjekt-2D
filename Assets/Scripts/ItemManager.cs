@@ -12,9 +12,17 @@ public class ItemManager : MonoBehaviour
     List<Toggle> buttons;
     public ToggleGroup zen;
     public int itemsPicked;
+    Dictionary<string, Sprite> icons;
+    public List<Sprite> surtr;
+    public List<string> ceobe;
 
     private void Start()
     {
+        icons = new Dictionary<string, Sprite>();
+        for (int i = 0; i < surtr.Count; i++)
+        {
+            icons[ceobe[i]] = surtr[i];
+        }
         itemsPicked = 0;
         items = new string[6];
         for (int i = 0; i < 6; i++)
@@ -25,7 +33,7 @@ public class ItemManager : MonoBehaviour
         foreach (Transform t in transform.Find("Hotbar"))
         {
             buttons.Add(t.GetComponent<Toggle>());
-            t.Find("Label").GetComponent<TMP_Text>().text = "";
+            //t.Find("Label").GetComponent<Image>().sprite;
         }
         UpdateList();
     }
@@ -38,6 +46,8 @@ public class ItemManager : MonoBehaviour
             {
                 itemsPicked++;
                 items[i] = item;
+                buttons[i].transform.Find("Label").GetComponent<Image>().sprite = icons[item];
+                //buttons[i].GetComponent<Image>().sprite = icons[item];
                 UpdateList();
                 return;
             }
@@ -53,6 +63,7 @@ public class ItemManager : MonoBehaviour
                 if (items[i] == item)
                 {
                     items[i] = "";
+                    buttons[i].transform.Find("Label").GetComponent<Image>().sprite = icons["empty"];
                     UpdateList();
                     return;
                 }
@@ -69,7 +80,8 @@ public class ItemManager : MonoBehaviour
             held = "";
             return;
         }
-        held = t.gameObject.transform.Find("Label").GetComponent<TMP_Text>().text;
+        held = items[buttons.IndexOf(t)]; 
+            //t.gameObject.transform.Find("Label").GetComponent<TMP_Text>().text;
     }
 
     private void UpdateList()
@@ -80,11 +92,11 @@ public class ItemManager : MonoBehaviour
             if (items[i] != "")
             {
                 buttons[i].GetComponent<Toggle>().interactable = true;
-                buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = items[i];
+                //buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = items[i];
             }
             else
             {
-                buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = "";
+                //buttons[i].gameObject.transform.Find("Label").GetComponent<TMP_Text>().text = "";
                 buttons[i].GetComponent<Toggle>().interactable = false;
             }
         }

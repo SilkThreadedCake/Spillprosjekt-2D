@@ -16,7 +16,6 @@ public class Poi : MonoBehaviour
         coco = GameObject.Find("Player").GetComponent<ItemManager>();
         updateRoom = GameObject.Find("RoomManager").GetComponent<RoomMovement>();
     }
-
     public void CheckItem()
     {
         string held = coco.held;
@@ -27,6 +26,7 @@ public class Poi : MonoBehaviour
         }
         else if (!string.IsNullOrEmpty(held) && !string.IsNullOrEmpty(use) && held == use)
         {
+            coco.RemoveItem(held);
             if (door != null)
             {
                 Destroy(door);
@@ -36,10 +36,8 @@ public class Poi : MonoBehaviour
             {
                 coco.AddItem(usePickup);
             }
-            coco.RemoveItem(held);
             Destroy(gameObject);
         }
 
     }
-   
 }
