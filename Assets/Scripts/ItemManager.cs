@@ -93,7 +93,7 @@ public class ItemManager : MonoBehaviour
     private void UpdateList()
     {
         zen.SetAllTogglesOff();
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (items[i] != "")
             {
