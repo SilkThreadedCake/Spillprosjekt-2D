@@ -82,6 +82,12 @@ public class ItemManager : MonoBehaviour
         }
         held = items[buttons.IndexOf(t)]; 
             //t.gameObject.transform.Find("Label").GetComponent<TMP_Text>().text;
+
+    }
+    public void unequip()
+    {
+        zen.SetAllTogglesOff();
+        HeldItem();
     }
 
     private void UpdateList()
